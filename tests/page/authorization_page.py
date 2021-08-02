@@ -1,6 +1,5 @@
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from tests.page.page_manager import PagesManager
 
 
 class AthorizationPageLocators:
@@ -13,21 +12,20 @@ class AthorizationPageLocators:
 class AuthorizationPage(object):
 
     def __init__(self, driver):
-
-        self.driver = driver
+        self.pm = PagesManager(driver)
 
     def fill_fields(self, email, password):
-        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(AthorizationPageLocators.LOGIN_FIELD))
-        self.driver.find_element(*AthorizationPageLocators.LOGIN_FIELD).clear()
-        self.driver.find_element(*AthorizationPageLocators.LOGIN_FIELD).send_keys(email)
+        self.pm.locate_element(AthorizationPageLocators.LOGIN_FIELD)
+        self.pm.find_element(AthorizationPageLocators.LOGIN_FIELD).clear()
+        self.pm.find_element(AthorizationPageLocators.LOGIN_FIELD).send_keys(email)
 
-        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(AthorizationPageLocators.PASSWORD_FIELD))
-        self.driver.find_element(*AthorizationPageLocators.PASSWORD_FIELD).send_keys(password)
+        self.pm.locate_element(AthorizationPageLocators.PASSWORD_FIELD)
+        self.pm.find_element(AthorizationPageLocators.PASSWORD_FIELD).send_keys(password)
 
     def click_login_button(self):
-        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable(AthorizationPageLocators.AUTHORIZATION_BUTTON))
-        self.driver.find_element(*AthorizationPageLocators.AUTHORIZATION_BUTTON).click()
+        self.pm.click_element(AthorizationPageLocators.AUTHORIZATION_BUTTON)
+        self.pm.find_element(AthorizationPageLocators.AUTHORIZATION_BUTTON).click()
 
     def show_error_massage(self):
-        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(AthorizationPageLocators.ERROR_MESSAGE))
-        return self.driver.find_element(*AthorizationPageLocators.ERROR_MESSAGE).is_displayed()
+        self.pm.locate_element(AthorizationPageLocators.ERROR_MESSAGE)
+        return self.pm.find_element(AthorizationPageLocators.ERROR_MESSAGE).is_displayed()

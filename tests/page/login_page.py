@@ -1,6 +1,5 @@
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from tests.page.page_manager import PagesManager
 
 
 class LoginPageLocators:
@@ -10,12 +9,11 @@ class LoginPageLocators:
 class LoginPage(object):
 
     def __init__(self, driver):
-
-        self.driver = driver
+        self.pm = PagesManager(driver)
 
     def open_authorization_page(self):
-        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located(LoginPageLocators.AUTHORIZATION_BUTTON))
-        self.driver.find_element(*LoginPageLocators.AUTHORIZATION_BUTTON).click()
+        self.pm.locate_element(LoginPageLocators.AUTHORIZATION_BUTTON)
+        self.pm.find_element(LoginPageLocators.AUTHORIZATION_BUTTON).click()
 
 
 
